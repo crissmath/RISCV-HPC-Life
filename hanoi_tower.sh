@@ -1,6 +1,13 @@
 #!/bin/bash
+
+
 #counter
 cnt_steps=0
+
+
+# first arg : N_disks, default_value = 3
+N_DISKS=${1:-3}  
+
 
 # print function
 print_mov(){
@@ -26,7 +33,6 @@ solve_hanoi(){
         print_mov 1 "$source" "$target"
         #echo "Hola 1"
     else
-
         # call 1: Move top n-1  disk from Source --> Auxiliar
         solve_hanoi $((n - 1)) "$source" "$target" "$aux"
 
@@ -45,20 +51,12 @@ solve_hanoi(){
 clear 
 
 echo "================================================================"
-echo                    TOWER OF HANOI
+echo "                   TOWER OF HANOI                               "
 echo "================================================================"
-echo ""
-
-
-N_DISKS=5
-
-echo "Starting  Simulation $N_DISKS ..."
-echo "Pegs:"
-echo "[A] = Source, [B] = Auxiliar, [C]=target"
-echo "--------------------------------------------------------------"
-echo "Steps             Movement                from --> to"
-echo "--------------------------------------------------------------"
+echo "Config: $N_DISKS disks      |      System: $(uname -s)/$(uname -m)"
+echo "----------------------------------------------------------------"
 solve_hanoi "$N_DISKS" "P_A" "P_B" "P_C"
 echo "--------------------------------------------------------------"
-
-echo "end simulation ..."
+echo " Simulation completed in $cnt_steps steps."
+echo "--------------------------------------------------------------"
+echo "================================================================"
