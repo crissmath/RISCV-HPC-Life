@@ -10,7 +10,7 @@ print_mov(){
 
     ((cnt_steps++))
 
-    printf "[Step %02d] (mov disk %d) %s --> %s \n" "$cnt_steps" "$disk" "$source" "$target"  
+    printf "[Step %02d]         (mov disk %d)           %s --> %s \n" "$cnt_steps" "$disk" "$source" "$target"  
 
 }
 
@@ -43,12 +43,22 @@ solve_hanoi(){
 
 ## Main
 clear 
-echo Tower of hanoi
+
+echo "================================================================"
+echo                    TOWER OF HANOI
+echo "================================================================"
+echo ""
+
 
 N_DISKS=5
 
-
-echo "Start Simulation $N_DISKS ..."
+echo "Starting  Simulation $N_DISKS ..."
+echo "Pegs:"
+echo "[A] = Source, [B] = Auxiliar, [C]=target"
+echo "--------------------------------------------------------------"
+echo "Steps             Movement                from --> to"
+echo "--------------------------------------------------------------"
 solve_hanoi "$N_DISKS" "P_A" "P_B" "P_C"
+echo "--------------------------------------------------------------"
 
 echo "end simulation ..."
