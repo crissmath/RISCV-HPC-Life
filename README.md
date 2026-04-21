@@ -17,17 +17,24 @@ The tower of Hanoi is implemented recursively.
 recursive using two calls:
 
 ```bash
-hanoi_solve $(n - 1) "$src" "$target" "$aux"
-hanoi_solve $(n - 1) "$aux" "$source" "$target"
+hanoi_solve "$(n - 1)" "$source" "$target" "$aux"
+hanoi_solve "$(n - 1)" "$aux" "$source" "$target"
 ```
 
 ## How to run
 
 For default use 3 disks, but if you want to increment use parameter (./hanoi_tower.sh 10)
 
+custom run:
+
+```bash
+./hanoi_tower.sh 10
+```
+
+defaul run:
+
 ```bash
 ./hanoi_tower.sh
-
 ================================================================
                    TOWER OF HANOI                               
 ================================================================
