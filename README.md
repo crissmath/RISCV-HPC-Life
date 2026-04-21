@@ -2,7 +2,7 @@
 
 Coding Challenge - Broadening the RISC-V High Precision Code Base and Reach
 
-This repository contains a simple **Tower of Hanoi** demonstration implemented in BASH and Python.
+This repository contains a simple **Tower of Hanoi** demonstration implemented in BASH and Conway's Game of Life in Python.
 
 ## What it shows
 
@@ -14,6 +14,6 @@ This repository contains a simple **Tower of Hanoi** demonstration implemented i
 
 The recursive structure appears in these two calls:
 
-```python
-hanoi(n - 1, origin, destination, auxiliary)
-hanoi(n - 1, auxiliary, origin, destination)
+```bash
+hanoi_solve (n - 1) origin destination, auxiliary
+hanoi_solve (n - 1) auxiliary origin destination

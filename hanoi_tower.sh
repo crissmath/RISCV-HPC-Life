@@ -17,7 +17,8 @@ print_mov(){
 
     ((cnt_steps++))
 
-    printf "[Step %02d]         (mov disk %d)           %s --> %s \n" "$cnt_steps" "$disk" "$source" "$target"  
+    printf "[Step %02d] (Disk %d): \e[1;32m%s\e[0m --> \e[1;34m%s\e[0m\n" \
+    "$cnt_steps" "$disk" "$source" "$target"  
 
 }
 
@@ -49,7 +50,6 @@ solve_hanoi(){
 
 ## Main
 clear 
-
 echo "================================================================"
 echo "                   TOWER OF HANOI                               "
 echo "================================================================"
