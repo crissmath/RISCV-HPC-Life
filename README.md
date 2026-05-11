@@ -3,34 +3,75 @@ cat << 'EOF' > README.md
 # LFX Mentorship Summer 2026: RISC-V HPC Portability & Optimization
 
 **Applicant:** crissmath  
-**Target Project:** Broadening the RISC-V High Precision Code Base and Reach (Mentor: Kurt Keville, MIT)
+**Target Project:** Broadening the RISC-V High Precision Code Base and Reach  
+**Mentor:** Kurt Keville, MIT  
 
 ---
 
-## 1. The Coding Challenge
+## 1. Coding Challenge
 
-This section contains the solutions requested for the project application. It includes a simple **Tower of Hanoi** demonstration implemented in **Bash**, and is currently being extended with a **Conway's Game of Life** implementation in **Python**.
+This section contains the coding challenge requested for the project application.
+
+The challenge asks for a short scripted demonstration of either **Tower of Hanoi** or **Conway's Game of Life**, ideally identifying the sections that demonstrate recursion and/or iteration.
+
+This repository currently provides a working **Tower of Hanoi** implementation in **Bash**.
 
 ### Current Challenge Coverage
 
-- **Tower of Hanoi (Bash)**: Demonstrates a recursive solution with formatted terminal output.
-- **Conway's Game of Life (Python)**: Planned as an additional dynamic example for the challenge.
+- **Tower of Hanoi (Bash):** implemented and fully runnable.
+- **Main concept demonstrated:** recursion.
+- **Execution style:** command-line script with formatted terminal output.
+- **Optional extension:** Conway's Game of Life notes are included for future iterative simulation work.
 
-### Tower of Hanoi Implementation
+---
 
-The Tower of Hanoi is implemented recursively using two core calls:
+## 2. Tower of Hanoi Implementation
+
+**File:** `hanoi_tower.sh`
+
+The Tower of Hanoi algorithm is implemented recursively.
+
+The core recursive structure is:
 
 ```bash
 hanoi_solve "$((n - 1))" "$source" "$target" "$aux"
+move_disk "$n" "$source" "$target"
 hanoi_solve "$((n - 1))" "$aux" "$source" "$target"
 ```
 
-### How to Run
-The script uses 3 disks by default. To increase the complexity, pass the desired number of disks as a parameter (e.g., `./hanoi_tower.sh 10`).
+The recursion follows the classical three-step strategy:
 
-**Default run:**
+1. Move `n - 1` disks from the source peg to the auxiliary peg.
+2. Move the largest disk from the source peg to the target peg.
+3. Move the `n - 1` disks from the auxiliary peg to the target peg.
+
+This demonstrates recursive decomposition, base-case handling, and repeated function calls in a Bash script.
+
+---
+
+## 3. How to Run the Coding Challenge
+
+Make the script executable:
+
+```bash
+chmod +x hanoi_tower.sh
+```
+
+Run with the default number of disks:
+
 ```bash
 ./hanoi_tower.sh
+```
+
+Run with a custom number of disks:
+
+```bash
+./hanoi_tower.sh 10
+```
+
+Example output:
+
+```text
 ================================================================
                    TOWER OF HANOI                               
 ================================================================
@@ -49,37 +90,173 @@ Config: 3 disks      |      System: Linux/x86_64
 ================================================================
 ```
 
-### Conway's Game of Life
-To be continued ... :P
-
 ---
 
-## 2. HPC Porting & Double Precision Validation (The PoC)
+## 4. RISC-V HPC Portability Proof of Concept
 
 **Directory:** `hpc_validation_poc/`
 
-Refactoring and compiling ~400 HPC and AI/ML applications is a task that demands deep automation and strict numerical compliance. To demonstrate readiness for this core challenge, I have built a foundational CI/CD pipeline tailored for High-Performance Computing.
+The target mentorship project focuses on refactoring, compiling, validating, and optimizing community AI/ML and HPC applications for RISC-V.
 
-### The Proof of Concept:
-I implemented a Double-Precision General Matrix Multiplication (GEMM) kernel (`gemm_poc.c`) to simulate the computational workload of the target applications. The provided script (`portability_test.sh`) automates the following pipeline:
-1.  **Native Compilation:** Compiles the C code for the host architecture (x86) to establish a mathematical baseline.
-2.  **Cross-Compilation:** Uses `riscv64-linux-gnu-gcc` to generate the RISC-V binary.
-3.  **Emulation:** Executes the RISC-V binary using `qemu-riscv64-static`.
-4.  **Strict Validation:** Automatically diffs the output between x86 and RISC-V to guarantee zero loss of floating-point precision (Double Precision accuracy).
+To demonstrate readiness for that type of work, this repository also includes an initial local proof of concept focused on:
 
-### Why this matters for the 400 codes:
-This script represents the core engine of the automation we will build this summer. Instead of manually porting codes, this pipeline will be scaled to batch-ingest the 400 targets, handle dependencies, and automatically flag precision anomalies across the entire spreadsheet.
+- Native compilation on the host architecture.
+- RISC-V cross-compilation.
+- RISC-V execution through QEMU.
+- Double-precision numerical validation.
+- Early automation patterns for scaling portability checks.
+
+This proof of concept is intentionally small, but it models the kind of workflow required to test scientific and engineering codes across architectures.
+
+---
+
+## 5. Double-Precision Validation Kernel
+
+**Current file:** `hpc_validation_poc/gemm_advanced.c`
+
+The validation kernel uses double-precision floating-point operations to simulate a small HPC-style numerical workload.
+
+The intended validation flow is:
+
+1. Compile the numerical kernel natively on the host system.
+2. Cross-compile the same source code for RISC-V.
+3. Execute the RISC-V binary using QEMU.
+4. Compare the native and RISC-V outputs.
+5. Detect numerical deviations using tolerance-based validation.
+
+This is relevant because many HPC applications depend on numerical stability, reproducibility, and double-precision correctness.
 
 ---
 
-## 3. Optimization Strategy
+## 6. Planned Portability Automation
 
-Please refer to [`hpc_validation_poc/PORTING_METHODOLOGY.md`](hpc_validation_poc/PORTING_METHODOLOGY.md) for my detailed, 4-phase architectural plan on how we will tackle the codebase. The methodology covers:
-*   Automated cross-compilation at scale.
-*   Strict numerical validation against *Numerical Recipes* tolerances.
-*   Hardware Abstraction Layer (HAL) design for transitioning legacy x86 intrinsics to **RISC-V Vector Extension (RVV)**.
-*   Silicon-level profiling for memory bandwidth and cache optimization.
+The next step is to add a local portability script:
+
+```text
+hpc_validation_poc/portability_test.sh
+```
+
+The script will automate the following workflow:
+
+```text
+native compile -> native run -> RISC-V cross-compile -> QEMU run -> output validation
+```
+
+This provides a small but extensible base that can later be adapted to test larger applications from the RISC-V HPC code list.
 
 ---
-*Ready to contribute to the HAL-T repository and accelerate the RISC-V ecosystem.*
+
+## 7. Relevance to the 400-Code Porting Effort
+
+Refactoring and compiling a large set of HPC and AI/ML applications requires more than manual compilation. It requires a repeatable process for:
+
+- Classifying codes by language, build system, and dependencies.
+- Detecting portability issues early.
+- Checking RISC-V package availability.
+- Cross-compiling where possible.
+- Running smoke tests under emulation.
+- Validating numerical behavior for double-precision workloads.
+
+The proof of concept in this repository is a small first step toward that kind of automated workflow.
+
+---
+
+## 8. Proposed Optimization Strategy
+
+The broader strategy for the mentorship project can be organized into four phases:
+
+### Phase 1: Codebase Triage
+
+Classify target applications by:
+
+- Programming language.
+- Build system.
+- Dependency stack.
+- Numerical workload type.
+- Current package availability.
+- Expected RISC-V portability difficulty.
+
+### Phase 2: Automated Build and Portability Testing
+
+Develop repeatable scripts for:
+
+- Native builds.
+- RISC-V cross-compilation.
+- QEMU-based smoke testing.
+- Build log collection.
+- Failure classification.
+
+### Phase 3: Numerical Validation
+
+Compare native and RISC-V results using:
+
+- Deterministic test cases.
+- Double-precision kernels.
+- Tolerance-based output checks.
+- Reproducible validation logs.
+
+### Phase 4: Architecture-Aware Optimization
+
+Identify and address performance bottlenecks related to:
+
+- Memory access patterns.
+- Cache behavior.
+- Vectorization opportunities.
+- Architecture-specific assumptions.
+- Future use of the RISC-V Vector Extension where appropriate.
+
+---
+
+## 9. Repository Layout
+
+Current layout:
+
+```text
+RISCV-HPC-Life/
+├── README.md
+├── hanoi_tower.sh
+├── Con_game_notes.md
+└── hpc_validation_poc/
+    ├── gemm_advanced.c
+    └── src/
+```
+
+Planned additions:
+
+```text
+hpc_validation_poc/
+├── README.md
+├── PORTING_METHODOLOGY.md
+├── portability_test.sh
+└── gemm_poc.c
+```
+
+---
+
+## 10. Development Environment
+
+Current development environment:
+
+```text
+Host OS: Ubuntu 24.04
+Primary scripting language: Bash
+Optional scripting language: Python
+Target architecture: riscv64
+Emulation target: QEMU riscv64
+Toolchain target: riscv64-linux-gnu-gcc
+```
+
+---
+
+## 11. Summary
+
+This repository satisfies the coding challenge through a working Bash implementation of the Tower of Hanoi algorithm.
+
+It also extends the submission with an initial RISC-V HPC portability proof of concept focused on double-precision validation, cross-compilation, QEMU-based execution, and automation patterns relevant to the broader 400-code porting effort.
+
+The goal is to demonstrate not only scripting ability, but also readiness to contribute to automated portability, validation, and optimization workflows for high-precision scientific applications on RISC-V.
+
+---
+
+*Ready to contribute to the RISC-V HPC software ecosystem.*
 EOF
