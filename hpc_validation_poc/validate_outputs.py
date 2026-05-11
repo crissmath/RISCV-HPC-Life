@@ -5,8 +5,8 @@ def validate():
     print("--- Auditoría de Precisión Numérica (FP64) ---")
 
     try:
-        with open("build/out_x86.txt", "r") as f_x86, open(
-            "build/out_riscv.txt", "r"
+        with open("build/native_output.txt", "r") as f_x86, open(
+            "build/riscv_output.txt", "r"
         ) as f_rv:
 
             x86_data = f_x86.readlines()
