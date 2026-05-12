@@ -6,7 +6,7 @@ metrics, estado = read_metrics("test_output.txt")
 # print(f"typo de Numeric_keys {NUMERIC_KEYS}")
 
 print("========================")
-print(f"   ESTADO", {estado})
+print(f"   ESTADO: {estado}")
 print("========================\n")
 
 print("captured metrics:")

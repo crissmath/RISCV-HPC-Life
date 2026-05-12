@@ -18,7 +18,8 @@ POC_DIR="${ROOT_DIR}/hpc_validation_poc"
 BUILD_DIR="${POC_DIR}/build"
 
 SRC_FILE="${POC_DIR}/gemm_poc.c"
-VALIDATOR="${POC_DIR}/validate_outputs.py"
+#VALIDATOR="${POC_DIR}/validate_outputs.py"
+VALIDATOR="${POC_DIR}/validate_v2.py"
 
 NATIVE_BIN="${BUILD_DIR}/gemm_native"
 RISCV_BIN="${BUILD_DIR}/gemm_riscv64"
@@ -127,7 +128,7 @@ validate_outputs() {
     python3 "${VALIDATOR}" \
         --native-output "${NATIVE_OUT}" \
         --riscv-output "${RISCV_OUT}" \
-        --abs-tol "${ABS_TOL}"
+        --atol "${ABS_TOL}"
         #--rel-tol "${REL_TOL}"
 }
 

@@ -72,9 +72,9 @@ def validate(native_output, riscv_output, atol):
             delta = abs(native_value - riscv_value)
 
             print(
-                f"{key}:"
-                f"native={native_value:.17e} |"
-                f"riscv={riscv_value:.17e} |"
+                f"{key}: "
+                f"native={native_value:.17e} | "
+                f"riscv={riscv_value:.17e} | "
                 f"delta={delta:.3e}"
             )
 
@@ -94,6 +94,9 @@ def validate(native_output, riscv_output, atol):
     except FileNotFoundError as error:
         print(f"ERROR: output file not found: {error.filename}")
         return False
+    except ValueError as error:
+        print(f"ERROR: could not parse numerical value: {error}")
+        return False
 
 
 def main():
@@ -105,7 +108,7 @@ def main():
     parser.add_argument("--riscv-output", required=True)
     parser.add_argument("--atol", type=float, default=1e-9)
 
-    arg = parser.parse_args()
+    args = parser.parse_args()
 
     if not validate(args.native_output, args.riscv_output, args.atol):
         sys.exit(1)
