@@ -1,6 +1,6 @@
 """
 Conway's Game of life:
-
+https://en.wikipedia.org/wiki/Conway's_Game_of_Life
 rules:
 
 1. Any live cell with fewer than 2 live neighbors dies.
