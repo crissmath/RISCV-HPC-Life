@@ -11,7 +11,7 @@
 # 4. Calling validate_outputs.py to compare numerical results.
 #   Ubuntu 24.04 
 
-set -euo pipefail
+set -euo pipefail # stop is some part fail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 POC_DIR="${ROOT_DIR}/hpc_validation_poc"
