@@ -66,6 +66,50 @@ def validate(native_output, riscv_output, atol):
 
         passed = True  # bool for control mistake in metrics
 
+        for key in sorted(native_metrics.keys()):
+            native_value = native_metrics[key]
+            riscv_value = riscv_metrics[key]
+            delta = abs(native_value - riscv_value)
+
+            print(
+                f"{key}:"
+                f"native={native_value:.17e} |"
+                f"riscv={riscv_value:.17e} |"
+                f"delta={delta:.3e}"
+            )
+
+            if delta > atol:
+                print(f"ERROR in metric {key}:")
+                print(f"    native : {native_value}")
+                print(f"    RISC-V : {riscv_value}")
+                print(f"    delta : {delta}")
+                passed = False
+
+        if passed:
+            print("PASS: native and RISC-V outputs match within FP64 tolerance.")
+            return True
+
+        return False
+
     except FileNotFoundError as error:
         print(f"ERROR: output file not found: {error.filename}")
         return False
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Validate native and RISC-V FP64 numerical outputs."
+    )
+
+    parser.add_argument("--native-output", required=True)
+    parser.add_argument("--riscv-output", required=True)
+    parser.add_argument("--atol", type=float, default=1e-9)
+
+    arg = parser.parse_args()
+
+    if not validate(args.native_output, args.riscv_output, args.atol):
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
