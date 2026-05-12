@@ -127,8 +127,8 @@ validate_outputs() {
     python3 "${VALIDATOR}" \
         --native-output "${NATIVE_OUT}" \
         --riscv-output "${RISCV_OUT}" \
-        --abs-tol "${ABS_TOL}" \
-        --rel-tol "${REL_TOL}"
+        --abs-tol "${ABS_TOL}"
+        #--rel-tol "${REL_TOL}"
 }
 
 main() {

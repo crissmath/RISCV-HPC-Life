@@ -1,4 +1,16 @@
 import sys
+import argparse
+
+NUMERIC_KEYS = {
+    "SIZE",
+    "BLOCK_SIZE",
+    "CHECKSUM",
+    "WEIGHTED_CHECKSUM",
+    "DIAGONAL_SUM",
+    "MAX_ABS_VALUE",
+    "MAX_DIFF_INNER_OUTER",
+    "MAX_DIFF_INNER_BLOCKED",
+}
 
 
 def validate():
