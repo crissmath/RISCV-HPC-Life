@@ -1,9 +1,22 @@
-from validate_v2 import read_metrics, validate
+import sys
+from pathlib import Path
 
-metrics, estado = read_metrics("test_output.txt")
+CURRENT_DIR = Path(__file__).resolve().parent
+POC_DIR = CURRENT_DIR.parent
+FIXTURES_DIR = CURRENT_DIR / "fixtures"
+
+sys.path.insert(0, str(POC_DIR))
 
 
-# print(f"typo de Numeric_keys {NUMERIC_KEYS}")
+from validate_outputs import read_metrics, validate
+
+
+def fixture_path(filename):
+    return str(FIXTURES_DIR / filename)
+
+
+metrics, estado = read_metrics(fixture_path("native_output_pass.txt"))
+
 
 print("========================")
 print(f"   ESTADO: {estado}")
