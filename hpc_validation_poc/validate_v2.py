@@ -33,7 +33,7 @@ def read_metrics(path):
             # -- DEBUG --#
             # print(f"\n[DEBUG] llave:{key}")
             # print(f"\n[DEBUG] type:{type(key)}")
-            print(f"\n[DEBUG] type:{type(NUMERIC_KEYS)}")
+            # print(f"\n[DEBUG] type:{type(NUMERIC_KEYS)}")
 
             if key in NUMERIC_KEYS:
                 # print(f"\n[DEBUG] In to key {key}")
@@ -55,13 +55,13 @@ def validate(native_output, riscv_output, atol):
             return False
 
         if riscv_status != "PASS":
-            print(f"FAIL: native validation status is {riscv_status}")
+            print(f"FAIL: riscv validation status is {riscv_status}")
             return False
 
-        if native_metrics.keys() != riscv_metrics.key():
-            printf("FAIL:  metric sets do not match.")
+        if native_metrics.keys() != riscv_metrics.keys():
+            print("FAIL:  metric sets do not match.")
             print(f"Native metrics: {sorted(native_metrics.keys())}")
-            print(f"RISC-V metrics: {sorted(native_metrics.keys())}")
+            print(f"RISC-V metrics: {sorted(riscv_metrics.keys())}")
             return False
 
         passed = True  # bool for control mistake in metrics
