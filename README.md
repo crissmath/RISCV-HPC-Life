@@ -1,5 +1,3 @@
-cat << 'EOF' > README.md
-
 # LFX Mentorship Summer 2026: RISC-V HPC Portability & Optimization
 
 **Applicant:** crissmath  
@@ -246,6 +244,55 @@ Emulation target: QEMU riscv64
 Toolchain target: riscv64-linux-gnu-gcc
 ```
 
+Usefull: compiler flags
+
+**x86**
+gcc -O2 -std=c11 -Wall -Wextra -pedantic -ffp-contract=off hpc_validation_poc/gemm_poc.c -lm -o hpc_validation_poc/gemm_native_test
+
+```bash
+gcc                         compilador C nativo
+-O2                         optimización razonable
+-std=c11                    usar estándar C11
+-Wall                       advertencias comunes
+-Wextra                     advertencias adicionales
+-pedantic                   advertir sobre extensiones no estándar
+-ffp-contract=off           evitar FMA automático para comparación FP más estable
+hpc_validation_poc/gemm_poc.c   archivo fuente
+-lm                         enlazar biblioteca matemática
+-o gemm_native_test         nombre del ejecutable final
+```
+
+```bash
+$ ./gemm_native_test 
+KERNEL GEMM_FP64_ADVANCED_POC
+SIZE 64
+BLOCK_SIZE 16
+CHECKSUM 6.12822580645161494e+01
+WEIGHTED_CHECKSUM 5.48819899888765067e+04
+DIAGONAL_SUM -2.05297552836485186e+00
+MAX_ABS_VALUE 4.21913236929922242e+00
+MAX_DIFF_INNER_OUTER 0.00000000000000000e+00
+MAX_DIFF_INNER_BLOCKED 0.00000000000000000e+00
+VALIDATION_STATUS PASS
+```
+
+**risc-v**
+riscv64-linux-gnu-gcc -O2 -std=c11 -Wall -Wextra -pedantic -ffp-contract=off -static -march=rv64gc -mabi=lp64d hpc_validation_poc/gemm_poc.c -lm -o hpc_validation_poc/gemm_riscv64_test
+
+```bash
+:~/RISCV-HPC-Life/hpc_validation_poc$ qemu-riscv64-static gemm_riscv64_test 
+KERNEL GEMM_FP64_ADVANCED_POC
+SIZE 64
+BLOCK_SIZE 16
+CHECKSUM 6.12822580645161494e+01
+WEIGHTED_CHECKSUM 5.48819899888765067e+04
+DIAGONAL_SUM -2.05297552836485186e+00
+MAX_ABS_VALUE 4.21913236929922242e+00
+MAX_DIFF_INNER_OUTER 0.00000000000000000e+00
+MAX_DIFF_INNER_BLOCKED 0.00000000000000000e+00
+VALIDATION_STATUS PASS
+```
+
 ---
 
 ## 11. Summary
@@ -259,4 +306,3 @@ The goal is to demonstrate not only scripting ability, but also readiness to con
 ---
 
 *Ready to contribute to the RISC-V HPC software ecosystem.*
-EOF

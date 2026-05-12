@@ -20,12 +20,16 @@ hpc_validation_poc/gemm_riscv64_test
 hpc_validation_poc/gemm_native
 hpc_validation_poc/gemm_riscv64
 
-# Generated output files
+# Generated logs
 *.log
-*.txt
+
+# Generated local output files
 hpc_validation_poc/native_output.txt
 hpc_validation_poc/riscv_output.txt
 hpc_validation_poc/*_output.txt
+
+# Keep test fixtures
+!hpc_validation_poc/tests/fixtures/*.txt
 
 # Python cache
 __pycache__/
