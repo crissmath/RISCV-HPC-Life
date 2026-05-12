@@ -85,7 +85,7 @@ def get_next_cell_state(curent_cell, live_neighbors):
 
 def create_next_generation(board):
     rows = len(board)
-    cols = len(board)
+    cols = len(board[0])
 
     new_board = (
         []
@@ -105,6 +105,17 @@ def create_next_generation(board):
         new_board.append(new_row)
         i = i + 1
     return new_board
+
+
+def run_simulation(board, generations):
+    current_generation = 0
+
+    while current_generation <= generations:
+        print(f"Generation {current_generation}")
+        print_board(board)
+
+        board = create_next_generation(board)  # the new board replaza the last board
+        current_generation = current_generation + 1
 
 
 # basic print board in terminal
@@ -148,22 +159,24 @@ def main():
     row = 2
     col = 2
 
-    n_neighbors = count_live_neighbors(board, row, col)
-    current_cell = board[row][col]
-    next_cell = get_next_cell_state(current_cell, n_neighbors)
+    # n_neighbors = count_live_neighbors(board, row, col)
+    # current_cell = board[row][col]
+    # next_cell = get_next_cell_state(current_cell, n_neighbors)
 
-    print(f"cell position : {row, col}")
-    print(f"current cell  : {current_cell}")
-    print(f"live neighbors: {n_neighbors}")
-    print(f"next_cell     : {next_cell}")
+    # print(f"cell position : {row, col}")
+    # print(f"current cell  : {current_cell}")
+    # print(f"live neighbors: {n_neighbors}")
+    # print(f"next_cell     : {next_cell}")
 
-    print("Initial board")
-    print_board(board)
+    # print("Initial board")
+    # print_board(board)
 
-    new_board = create_next_generation(board)
+    # new_board = create_next_generation(board)
 
-    print("\nNext generation:")
-    print_board(new_board)
+    # print("\nNext generation:")
+    # print_board(new_board)
+
+    run_simulation(board, 4)
 
 
 if __name__ == "__main__":
