@@ -338,8 +338,4 @@ RISCV-HPC-Life/
     └── tests/                  # Local test files for validating the helper functions
 ```
 
-The `build/` directory is generated locally by the portability script and is intentionally ignored by Git.
-
----
-
 ---
