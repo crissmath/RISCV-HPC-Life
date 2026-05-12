@@ -1,10 +1,4 @@
-# LFX Mentorship Summer 2026: RISC-V HPC Portability & Optimization
-
-**Applicant:** crissmath  
-**Target Project:** Broadening the RISC-V High Precision Code Base and Reach  
-**Focus:** scripting challenge, RISC-V portability, FP64 validation, and early automation for HPC codes
-
----
+# RISCV-HPC-Life
 
 ## 1. Coding Challenge
 
@@ -17,7 +11,7 @@ The requested task was to create a short scripted demonstration of either:
 - Tower of Hanoi
 - Conway's Game of Life
 
-The current implementation provides a working **Tower of Hanoi** demonstration written in **Bash**.
+The current implementation provides a working **Tower of Hanoi** demonstration written in **Bash**, and Conway's Game of Life demo in Python
 
 ---
 
@@ -44,7 +38,6 @@ hanoi_solve "$((n - 1))" "$aux" "$source" "$target"
 ### Run the challenge demo
 
 ```bash
-chmod +x hanoi_tower.sh
 ./hanoi_tower.sh
 ```
 
@@ -83,8 +76,6 @@ Config: 3 disks      |      System: Linux/x86_64
 
 Conway's Game of Life is included as a small Python demonstration of iteration.
 
-The script starts from a fixed board, counts the live neighbors of each cell, applies Conway's rules, and generates the next board state. Repeating this process shows how the board evolves generation by generation.
-
 ### Rules
 
 ```text
@@ -95,17 +86,133 @@ dead cell + exactly 3 live neighbors     -> live cell
 dead cell + any other number of neighbors -> dead cell
 ```
 
-### Run the demo
+### Run the basic demo
 
-```python
+```bash
 python3 conway_life.py
+```
+
+Example output:
+
+```text
+Generation 0
+......
+..X...
+..X...
+..X...
+......
+
+Generation 1
+......
+......
+.XXX..
+......
+......
+
+*
+*
+*
+
+Generation 5
+......
+......
+.XXX..
+......
+......
+
+```
+
+### Run external patters from file
+
+```bash
+./run_conway.sh pattern_file.txt 5
+```
+
+```text
+param 1: file with commont patterns
+param 2: number of generations 
+```
+
+Example output:
+
+```bash
+./run_conway.sh pattern_file.txt 5
+Generation 0
+..............................
+..............................
+..XX.................XX.......
+..XX................X..X......
+.....................XX.......
+..............................
+..............................
+..............................
+..............................
+.....X........................
+.....X.........XXX............
+.....X........XXX.............
+..............................
+..............................
+........................X.....
+.........................X....
+.......................XXX....
+..............................
+..............................
+..............................
+
+Generation 1
+..............................
+..............................
+..XX.................XX.......
+..XX................X..X......
+.....................XX.......
+..............................
+..............................
+..............................
+..............................
+................X.............
+....XXX.......X..X............
+..............X..X............
+...............X..............
+..............................
+..............................
+.......................X.X....
+........................XX....
+........................X.....
+..............................
+..............................
+
+*
+*
+*
+
+Generation 5
+..............................
+..............................
+..XX.................XX.......
+..XX................X..X......
+.....................XX.......
+..............................
+..............................
+..............................
+..............................
+................X.............
+....XXX.......X..X............
+..............X..X............
+...............X..............
+..............................
+..............................
+..............................
+........................X.X...
+.........................XX...
+.........................X....
+..............................
 ```
 
 ## 4. RISC-V FP64 Portability Proof of Concept
 
 After completing the required scripting challenge, I added a small local proof of concept related to the broader mentorship project.
 
-The project description focuses on refactoring, compiling, validating, and optimizing AI/ML and HPC applications for RISC-V, especially high-precision double-precision workloads.
+The project focuses on refactoring, compiling, validating, and optimizing AI/ML and HPC applications for RISC-V, especially double-precision workloads.
 
 To explore that direction, this repository includes a small FP64 GEMM-style validation workflow.
 
@@ -161,15 +268,11 @@ These metrics are used to compare native execution against RISC-V execution unde
 The script automates the local portability workflow:
 
 ```text
-native compile
-      ↓
-native run
-      ↓
-RISC-V cross-compile
-      ↓
-RISC-V run through QEMU
-      ↓
-FP64 numerical validation
+step 1: native compile
+step 2: native run
+step 3: RISC-V cross-compile
+step 4: RISC-V run through QEMU
+step 5: FP64 numerical validation
 ```
 
 Run it with:
@@ -223,66 +326,20 @@ python3 hpc_validation_poc/tests/test_validate_outputs.py
 ```text
 RISCV-HPC-Life/
 ├── README.md
-├── conway_life.py
 ├── hanoi_tower.sh
-└── hpc_validation_poc
+├── conway_life.py
+├── run_conway.sh
+├── pattern_file.txt
+└── hpc_validation_poc/
     ├── README.md
     ├── gemm_poc.c
     ├── portability_test.sh
-    ├── tests
-    │   ├── fixtures
-    │   │   ├── native_output_pass.txt
-    │   │   ├── riscv_output_bad_number.txt
-    │   │   ├── riscv_output_fail_delta.txt
-    │   │   ├── riscv_output_fail_status.txt
-    │   │   ├── riscv_output_missing_metric.txt
-    │   │   └── riscv_output_pass.txt
-    │   └── test_validate_outputs.py
-    └── validate_outputs.py
+    ├── validate_outputs.py
+    └── tests/                  # Local test files for validating the helper functions
 ```
 
 The `build/` directory is generated locally by the portability script and is intentionally ignored by Git.
 
 ---
 
-## 9. Development Environment
-
-Current local test environment:
-
-```text
-Host OS: Ubuntu 24.04 / WSL2
-Host architecture: x86_64
-Native compiler: gcc
-RISC-V compiler: riscv64-linux-gnu-gcc
-RISC-V emulator: qemu-riscv64-static
-Validation language: Python 3
-```
-
 ---
-
-## 10. Current Status
-
-Completed:
-
-- Tower of Hanoi Bash challenge.
-- Conway's Game of Life Python iteration demo
-- Local FP64 GEMM portability kernel.
-- Native compilation and execution.
-- RISC-V cross-compilation.
-- RISC-V execution through QEMU.
-- Tolerance-based numerical validation.
-- Controlled validator test cases.
-
-Planned next step:
-
-- Apply the same workflow to a small real application or benchmark from the project list.
-
----
-
-## 10. Summary
-
-This repository satisfies the required coding challenge with a Bash implementation of Tower of Hanoi.
-
-It also includes a small RISC-V FP64 portability proof of concept that demonstrates the first steps toward automated validation for high-precision HPC workloads.
-
-The goal is to keep the implementation simple, reproducible, and extensible before scaling the workflow to real applications from the project list.
