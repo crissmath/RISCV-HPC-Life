@@ -83,6 +83,30 @@ def get_next_cell_state(curent_cell, live_neighbors):
     return next_cell
 
 
+def create_next_generation(board):
+    rows = len(board)
+    cols = len(board)
+
+    new_board = (
+        []
+    )  # use a new board because all cell calculate this next step based in the las board
+
+    i = 0
+    while i < rows:
+        new_row = []
+        j = 0
+        while j < cols:
+            current_cell = board[i][j]
+            live_neighbors = count_live_neighbors(board, i, j)
+
+            next_cell = get_next_cell_state(current_cell, live_neighbors)
+            new_row.append(next_cell)
+            j = j + 1
+        new_board.append(new_row)
+        i = i + 1
+    return new_board
+
+
 # basic print board in terminal
 def print_board(board):
     print("Conway's Game of life ")
@@ -115,8 +139,8 @@ def main():
 
     board = [
         [0, 0, 0, 0, 0, 0],
-        [0, 1, 1, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0],
+        [0, 0, 1, 0, 0, 0],
+        [0, 0, 1, 0, 0, 0],
         [0, 0, 1, 0, 0, 0],
         [0, 0, 0, 0, 0, 0],
     ]
@@ -124,7 +148,6 @@ def main():
     row = 2
     col = 2
 
-    print_board(board)
     n_neighbors = count_live_neighbors(board, row, col)
     current_cell = board[row][col]
     next_cell = get_next_cell_state(current_cell, n_neighbors)
@@ -133,6 +156,14 @@ def main():
     print(f"current cell  : {current_cell}")
     print(f"live neighbors: {n_neighbors}")
     print(f"next_cell     : {next_cell}")
+
+    print("Initial board")
+    print_board(board)
+
+    new_board = create_next_generation(board)
+
+    print("\nNext generation:")
+    print_board(new_board)
 
 
 if __name__ == "__main__":
