@@ -31,11 +31,12 @@ def read_metrics(path):
                 continue
 
             # -- DEBUG --#
-            print(f"\n[DEBUG] llave:{key}")
-            print(f"\n[DEBUG] type:{type(key)}")
-            print(f"\n[DEBUG] type:{type(NUMERIC_KEYS)}")
+            # print(f"\n[DEBUG] llave:{key}")
+            # print(f"\n[DEBUG] type:{type(key)}")
+            # print(f"\n[DEBUG] type:{type(NUMERIC_KEYS)}")
 
-            if key == NUMERIC_KEYS:
+            if key in NUMERIC_KEYS:
+                # print(f"\n[DEBUG] In to key {key}")
                 metrics[key] = float(value)
 
     return metrics, status
