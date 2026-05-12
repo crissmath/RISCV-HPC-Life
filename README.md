@@ -77,7 +77,31 @@ Config: 3 disks      |      System: Linux/x86_64
 
 ---
 
-## 3. RISC-V FP64 Portability Proof of Concept
+## 3. Conway's Game of Life Demo
+
+**File:** `conway_life.py`
+
+Conway's Game of Life is included as a small Python demonstration of iteration.
+
+The script starts from a fixed board, counts the live neighbors of each cell, applies Conway's rules, and generates the next board state. Repeating this process shows how the board evolves generation by generation.
+
+### Rules
+
+```text
+live cell + fewer than 2 live neighbors  -> dead cell
+live cell + 2 or 3 live neighbors        -> live cell
+live cell + more than 3 live neighbors   -> dead cell
+dead cell + exactly 3 live neighbors     -> live cell
+dead cell + any other number of neighbors -> dead cell
+```
+
+### Run the demo
+
+```python
+python3 conway_life.py
+```
+
+## 4. RISC-V FP64 Portability Proof of Concept
 
 After completing the required scripting challenge, I added a small local proof of concept related to the broader mentorship project.
 
@@ -99,7 +123,7 @@ This is intentionally small, but it models the kind of workflow needed before sc
 
 ---
 
-## 4. FP64 GEMM Kernel
+## 5. FP64 GEMM Kernel
 
 **File:** `hpc_validation_poc/gemm_poc.c`
 
@@ -130,7 +154,7 @@ These metrics are used to compare native execution against RISC-V execution unde
 
 ---
 
-## 5. Portability Test Script
+## 6. Portability Test Script
 
 **File:** `hpc_validation_poc/portability_test.sh`
 
@@ -166,7 +190,7 @@ Portability smoke test completed successfully.
 
 ---
 
-## 6. Numerical Validator
+## 7. Numerical Validator
 
 **File:** `hpc_validation_poc/validate_outputs.py`
 
@@ -194,33 +218,34 @@ python3 hpc_validation_poc/tests/test_validate_outputs.py
 
 ---
 
-## 7. Repository Layout
+## 8. Repository Layout
 
 ```text
 RISCV-HPC-Life/
 ├── README.md
+├── conway_life.py
 ├── hanoi_tower.sh
-├── Con_game_notes.md
-└── hpc_validation_poc/
+└── hpc_validation_poc
+    ├── README.md
     ├── gemm_poc.c
     ├── portability_test.sh
-    ├── validate_outputs.py
-    └── tests/
-        ├── fixtures/
-        │   ├── native_output_pass.txt
-        │   ├── riscv_output_pass.txt
-        │   ├── riscv_output_fail_delta.txt
-        │   ├── riscv_output_fail_status.txt
-        │   ├── riscv_output_missing_metric.txt
-        │   └── riscv_output_bad_number.txt
-        └── test_validate_outputs.py
+    ├── tests
+    │   ├── fixtures
+    │   │   ├── native_output_pass.txt
+    │   │   ├── riscv_output_bad_number.txt
+    │   │   ├── riscv_output_fail_delta.txt
+    │   │   ├── riscv_output_fail_status.txt
+    │   │   ├── riscv_output_missing_metric.txt
+    │   │   └── riscv_output_pass.txt
+    │   └── test_validate_outputs.py
+    └── validate_outputs.py
 ```
 
 The `build/` directory is generated locally by the portability script and is intentionally ignored by Git.
 
 ---
 
-## 8. Development Environment
+## 9. Development Environment
 
 Current local test environment:
 
@@ -235,11 +260,12 @@ Validation language: Python 3
 
 ---
 
-## 9. Current Status
+## 10. Current Status
 
 Completed:
 
 - Tower of Hanoi Bash challenge.
+- Conway's Game of Life Python iteration demo
 - Local FP64 GEMM portability kernel.
 - Native compilation and execution.
 - RISC-V cross-compilation.
